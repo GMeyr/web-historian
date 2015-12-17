@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+  <script src="../../bower_components/jquery/jquery.min.js"></script>
+</head>
+<body>
+  Enter a URL here:
+  <!-- <form method="POST"> -->
+    <!-- TODO: jQuery script to grab value of input field and send as JSON to server -->
+    <textarea id='urlInput' cols='100'></textarea>
+  <!-- </form> -->
+  <script>
+  $(document).ready(function(){
+    $('#urlInput').on('keypress', function(event){
+      if(event.which===13){
+        event.preventDefault();
+        
+        $.ajax({
+          url:"http://127.0.0.1:8080/archives/sites/"+$('#urlInput').val(),
+          type: 'GET',
+          success: function(data){
+            console.log('Get Request Success!', data);
+          },
+          error:function() {
+            console.log('Error we could not find your page!');
+          }
+        });
+      }
+    });
+  });
+  </script>
+</body>
+</html>

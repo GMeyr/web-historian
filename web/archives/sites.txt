@@ -1,0 +1,4 @@
+var json ={
+  'some':'test',
+  'json':'text'
+};
