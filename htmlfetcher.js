@@ -5,7 +5,7 @@ var fs = require('fs');
 
 
 exports.htmlFetch=function(res,site){
-  fs.writeFile(__dirname + '../archives/sites/' + site +'.txt', "blank", function(err, data){
+  fs.writeFile(__dirname + '/archives/sites/' + site +'.html', "blank", function(err, data){
     if(err){
       console.log(err)
     } else {
@@ -19,7 +19,7 @@ exports.htmlFetch=function(res,site){
     progress: function (current, total) {
       console.log('downloaded %d bytes from %d', current, total);
     }
-  }, __dirname + '../archives/sites/' + site +'.txt', function (err, res) {
+  }, __dirname + '/archives/sites/' + site +'.html', function (err, res) {
     if (err) {
       console.error('error', err);
       return;
