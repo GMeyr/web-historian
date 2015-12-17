@@ -1,6 +1,6 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
-var helpers = require('./http-helpers');
+var httpHelpers = require('./http-helpers');
 var fs = require('fs');
 // require more modules/folders here!
 
@@ -13,37 +13,11 @@ var fs = require('fs');
 
 exports.handleRequest = function (req, res) {
   var pathname=path.parse(req.url);
-  res.writeHead(200, helpers.headers);
 
-  fs.readFile(archive.paths.list, function(err, data){
-    if(err){
-      console.log("err!", err);
-    } else {
-      console.log("retrieved data!", data)
-    }
-  });
+  archive.readListOfUrls(pathname.base, res);
 
-  // fs.stat(archive.paths.list, function(error, stats) {
-  //       fs.open(archive.paths.list, "r", function(error, fd) {
-  //         var buffer = new Buffer(stats.size);
 
-  //         fs.read(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer) {
-  //           var data = buffer.toString("utf8", 0, buffer.length);
+    // res.end('true: google is on the list');
 
-  //           console.log('Here is your data', data);
-  //           fs.close(fd);
-  //         });
-  //       });
-  //     });
-
-  // fs.open(archive.paths.list, 'r', function(err, data){
-
-  //       fs.read(archive.paths.list, function(data){
-  //       console.log("newData is:", data);
-  //       });
-  //       res.writeHead(200, helpers.headers);
-  //       res.end(data); 
-    
-  // });
- res.end(archive.paths.list);
-};
+   // res.end(archive.paths.list);
+  };
