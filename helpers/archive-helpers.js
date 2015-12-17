@@ -28,34 +28,43 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(site,res){
-  fs.readFile(exports.paths.list,'utf8', function(err, data){
-    console.log('site url', site); 
+  fs.readFile(exports.paths.list,'utf8', function(err, data){ 
     // console.log('response object', res);
     if(err){
       console.log("err!", err);
     } else {
       list=data;  
-      exports.isUrlInList(list, site, res)
+      isUrlInList(list, site, res)
 
       } 
   });
 };
 
-exports.isUrlInList = function(list, site, res){
+isUrlInList = function(list, site, res){
   list=list.split('\n');
   for (var i=0; i<list.length; i++){
     if (site===list[i]){
-      res.writeHead(200, httpHelpers.headers);
-      res.end("We have it!");
-      return true; 
+      // isUrlArchived(list, site, res);
     }
   }
+  addUrlToList(list, site); 
   res.writeHead(200, httpHelpers.headers);
   res.end("We don't have it!");
-  return false; 
 };
 
-exports.addUrlToList = function(){
+addUrlToList = function(list, site){
+  console.log('intital list', list);
+  list=list.join()
+  list=list.replace(/,/g, '\n');
+  list+='\n'+site;
+  fs.writeFile(exports.paths.list, list, function(err){
+    if (err){
+     return console.log('error');
+    }else{
+      console.log('file was saved');
+    }
+  })
+
 };
 
 exports.isUrlArchived = function(){
