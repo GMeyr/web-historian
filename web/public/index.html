@@ -21,6 +21,7 @@
           type: 'GET',
           success: function(data){
             console.log('Get Request Success!', data);
+            $('body').append(data);
           },
           error:function() {
             console.log('Error we could not find your page!');

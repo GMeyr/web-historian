@@ -31,7 +31,7 @@ exports.readListOfUrls = function(site,res){
   fs.readFile(exports.paths.list,'utf8', function(err, data){ 
     // console.log('response object', res);
     if(err){
-      console.log("err!", err);
+      error(err);
     } else {
       list=data;  
       isUrlInList(list, site, res)
@@ -40,35 +40,71 @@ exports.readListOfUrls = function(site,res){
   });
 };
 
-isUrlInList = function(list, site, res){
+var isUrlInList = function(list, site, res){
   list=list.split('\n');
   for (var i=0; i<list.length; i++){
     if (site===list[i]){
-      // isUrlArchived(list, site, res);
+      exports.isUrlArchived(site, res);
+      return 
     }
   }
-  addUrlToList(list, site); 
-  res.writeHead(200, httpHelpers.headers);
-  res.end("We don't have it!");
+  addUrlToList(list, site, res); 
 };
 
-addUrlToList = function(list, site){
-  console.log('intital list', list);
+var addUrlToList = function(list, site, res){
   list=list.join()
   list=list.replace(/,/g, '\n');
   list+='\n'+site;
   fs.writeFile(exports.paths.list, list, function(err){
     if (err){
-     return console.log('error');
+     error(err);
     }else{
+      //TODO: check if archived
       console.log('file was saved');
+      res.writeHead(200, httpHelpers.headers)
+      res.write("<p>That page has not yet been archived, but we'll work on it now. Check back soon!</p>");
+      res.end()   
     }
   })
-
 };
 
-exports.isUrlArchived = function(){
+exports.isUrlArchived = function(site,res){
+  console.log('inside is url archived');
+  fs.stat(exports.paths.archivedSites+"/"+site+'.html',function(err,stats){
+  // handle result
+    if(err){
+      error(err);
+      res.writeHead(200, httpHelpers.headers)
+      res.write("<p>That page has not yet been archived, but we'll work on it now. Check back soon!</p>");
+      res.end();       
+    }else if (stats.isFile()){ 
+      console.log("We've got that site")
+      fs.readFile(exports.paths.archivedSites+"/"+site+'.html','utf8', function(err, data){ 
+    // console.log('response object', res);
+        if(err){
+          console.log("err!", err);
+        } else {
+          var file=data; 
+
+          res.writeHead(200, httpHelpers.headers)
+          res.end(file);
+        } 
+      });
+    }
+  });
 };
+
 
 exports.downloadUrls = function(){
 };
+
+var notFound=function(res){
+  res.write(200, httpHelpers.headers)
+  res.write("<p>That page has not yet been archived, but we'll work on it now. Check back soon!</p>");
+  res.end()
+}
+
+
+var error = function(err){
+  console.log(err);
+}

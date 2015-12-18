@@ -15,11 +15,11 @@ var htmlFetch=require('../htmlfetcher');
 exports.handleRequest = function (req, res) {
   var pathname=path.parse(req.url);
 
-  // archive.readListOfUrls(pathname.base, res);
+  archive.readListOfUrls(pathname.base, res);
 
 
     // res.end('true: google is on the list');
 
    // res.end(archive.paths.list);
-   htmlFetch.htmlFetch(res, pathname.base);
+   // htmlFetch.htmlFetch(res, pathname.base);
   };

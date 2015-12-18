@@ -19,7 +19,7 @@ exports.htmlFetch=function(res,site){
     progress: function (current, total) {
       console.log('downloaded %d bytes from %d', current, total);
     }
-  }, __dirname + '/archives/sites/' + site +'.html', function (err, res) {
+  }, __dirname + 'd/archives/sites/' + site +'.html', function (err, res) {
     if (err) {
       console.error('error', err);
       return;
