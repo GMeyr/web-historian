@@ -23,3 +23,10 @@ exports.handleRequest = function (req, res) {
    // res.end(archive.paths.list);
    // htmlFetch.htmlFetch(res, pathname.base);
   };
+
+/*
+request handler => res obj => readListURLS
+                                isURLonList
+                                  isArchived?
+                                    found, try to send response w/ stored html (redirect)
+*/
